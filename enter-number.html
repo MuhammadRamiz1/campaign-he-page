@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koyal - Music App</title>
+    <link rel="stylesheet" href="./style.css"></link>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Intel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page">
+  <div class=" mx-auto w-[max-content] lg:mb-0 mb-6 ">
+            <img src="./koyal-logo.png">
+        </div>
+        <div class="container grid lg:grid-cols-2 grid-cols-1">
+            <!-- Left Content -->
+            <div class="left-content">
+                <div class="tagline mb-8 font-light">
+                    Scroll Karo, Play Karo,
+                    <br>
+                    <span class="text-[var(--primary-color)] font-bold">Enjoy Karo, Repeat Karo</span>
+                </div>
+                <div class="subscription-form">
+                    <input id="phone" type="tel">
+                    <button class="subscribe-btn" id="subscribe">Subscribe</button>
+                </div>
+            </div>
+            <!-- Right Content - Phone Mockup -->
+            <div class="flex justify-center items-center">
+            <div class="phone-mockup  h-[375px] md:h-auto w-[max-content]  md:w-[fit-content]">
+                <img src="./mobile-Image.png">
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
+<script>
+  const input = document.querySelector("#phone");
+
+  const sanitized = history?.state?.no;
+  if(sanitized){
+    input.value=sanitized
+
+  }
+
+  const getHENo=async()=>{
+    let op=history?.state?.operator
+    const api=await fetch(op =='telenor'? 'http://charge.koyal.pk/koyaldownload/getnumber-http-he.php':'http://digital.koyal.pk/get_number_api.php',
+    {headers:{'content-type':'application/json'}}
+)
+    const res=await api.json()
+    console.log('res', res?.Response?.msisdn)
+    if(res?.Response?.msisdn){
+    if(op =='telenor'){
+     input.value= res?.Response?.msisdn?.slice(1)
+
+    }else if(op =='zong'){
+     input.value= res?.Response?.msisdn?.replace('92','')
+
+    }else{
+
+    }
+    }
+  }
+  getHENo()
+
+  window.intlTelInput(input, {
+    loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"),
+    //  onlyCountries: ["pk"],
+       separateDialCode: true,
+     initialCountry:'pk',
+      countrySearch: false,
+      autoPlaceholder: "polite",
+        allowDropdown: false,
+        strictMode: true,
+        formatAsYouType: true,
+        formatOnDisplay: true,
+        nationalMode: true,
+        validationNumberType: "FIXED_LINE_OR_MOBILE",
+        customPlaceholder: () => {
+          return `${"3xx xxxxxxx"}`;
+        },
+        placeholderNumberType: "MOBILE",
+  });
+
+
+
+
+
+  document.querySelector('#subscribe').addEventListener('click', () => {
+    const number = input?.value?.split(" ")?.join('') || '';
+    const finalNumber=`+92${number}`
+    const nextUrl = window.location.href.replace('enter-number', 'enter-otp');
+    if(!number || number?.length < 10){
+
+     return
+    }
+    const data = history?.state;
+        async function sendOTP() {
+        const baseUrl=`https://apiv2.koyal.pk/api/v2/web/subscriber/verify-details`
+        const res=await fetch(baseUrl,{
+            method:'POST',
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({
+                  type: "MSISDN",
+      value:finalNumber ,
+      operator:data?.operator,
+      platformType: "web"
+            })
+        })
+        console.log('fetc', res)
+
+        const final=await res?.json()
+        console.log('final', final)
+            // Push state data
+    window.history.pushState({ no: finalNumber, operator:data?.operator }, '', nextUrl);
+
+    // Navigate to next page
+     window.location.href = nextUrl;
+
+        
+    }
+    sendOTP()
+
+  });
+</script>
+</html>

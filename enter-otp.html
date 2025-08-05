@@ -27,7 +27,7 @@
 </head>
 <body>
     <div class="page">
-       <div class=" mx-auto w-[max-content] lg:mb-0 mb-6 ">
+        <div class=" mx-auto w-[max-content] lg:mb-0 mb-6 ">
             <img src="./koyal-logo.png">
         </div>
         <div class="container grid lg:grid-cols-2 grid-cols-1">
@@ -38,51 +38,53 @@
                     <br>
                     <span class="text-[var(--primary-color)] font-bold">OTP</span>
                 </div>
-                <div class="flex gap-1 items-center mb-4">
-                    <i id="edit-phone" class="fa-solid fa-pen-to-square text-[var(--primary-color)] text-[22px] cursor-pointer "></i>
-                    <p id="show-number" class="text-white"></p>
+                <div class="flex flex-col  items-center lg:items-start">
+                    <div class="flex gap-1 items-center mb-4  ">
+                        <i id="edit-phone" class="fa-solid fa-pen-to-square text-[var(--primary-color)] text-[22px] cursor-pointer "></i>
+                        <p id="show-number" class="text-white"></p>
+                    </div>
+                    <div class="flex  gap-3 mb-2 mt-2 ">
+                        <input
+                            type="text"
+                            placeholder="_"
+                            maxlength="1"
+                            class="rounded-[15px] otp text-white bg-inherit w-14 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none  focus:border-[var(--primary-color)]"
+                        >
+                        <input
+                            type="text"
+                            placeholder="_"
+                            maxlength="1"
+                            class="rounded-[15px] otp text-white w-14 h-14 bg-inherit text-center text-xl border border-gray-300 rounded focus:outline-none focus:border-[var(--primary-color)]"
+                            pattern="^[0-9]+$"
+                        >
+                        <input
+                            type="text"
+                            placeholder="_"
+                            maxlength="1"
+                            class="rounded-[15px] otp text-white bg-inherit w-14 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none focus:border-[var(--primary-color)]"
+                            pattern="^[0-9]+$"
+                        >
+                        <input
+                            type="text"
+                            placeholder="_"
+                            maxlength="1"
+                            class="rounded-[15px] otp text-white bg-inherit w-14 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none focus:border-[var(--primary-color)]"
+                            pattern="^[0-9]+$"
+                        >
+                    </div>
+                    <p class="text-[red] mb-2" id="input-error"></p>
+                    <button class="subscribe-btn mt-2" id="continue">Continue</button>
+                    <p class="text-white mt-4 ">
+                        Didn't Receive a Code?
+                        <button class="underline italic text-[var(--primary-color)] cursor-pointer" id="resend">Resend</button>
+                    </p>
                 </div>
-                <div class="flex  gap-3 mb-2 mt-2">
-                    <input
-                        type="text"
-                        placeholder="_"
-                        maxlength="1"
-                        class="rounded-[15px] otp text-white bg-inherit w-14 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none  focus:border-[var(--primary-color)]"
-                    >
-                    <input
-                        type="text"
-                        placeholder="_"
-                        maxlength="1"
-                        class="rounded-[15px] otp text-white w-14 h-14 bg-inherit text-center text-xl border border-gray-300 rounded focus:outline-none focus:border-[var(--primary-color)]"
-                        pattern="^[0-9]+$"
-                    >
-                    <input
-                        type="text"
-                        placeholder="_"
-                        maxlength="1"
-                        class="rounded-[15px] otp text-white bg-inherit w-14 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none focus:border-[var(--primary-color)]"
-                        pattern="^[0-9]+$"
-                    >
-                    <input
-                        type="text"
-                        placeholder="_"
-                        maxlength="1"
-                        class="rounded-[15px] otp text-white bg-inherit w-14 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none focus:border-[var(--primary-color)]"
-                        pattern="^[0-9]+$"
-                    >
-                </div>
-                <p class="text-[red] mb-2" id="input-error"></p>
-                <button class="subscribe-btn mt-2" id="continue">Continue</button>
-                <p class="text-white mt-4 ">
-                    Didn't Receive a Code?
-                    <span class="underline italic text-[var(--primary-color)] cursor-pointer" id="resend">Resend</span>
-                </p>
             </div>
             <!-- Right Content - Phone Mockup -->
-           <div class="flex justify-center items-center">
-            <div class="phone-mockup  h-[375px] md:h-auto w-[max-content]  md:w-[fit-content]">
-                <img src="./mobile-Image.png">
-            </div>
+            <div class="flex justify-center items-center">
+                <div class="phone-mockup  h-[375px] md:h-auto w-[max-content]  md:w-[fit-content]">
+                    <img src="./mobile-Image.png">
+                </div>
             </div>
         </div>
     </div>

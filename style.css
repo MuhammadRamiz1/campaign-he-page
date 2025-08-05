@@ -475,6 +475,9 @@ body {
   .tagline{
     text-align: center;
   }
+    .phone-mockup {
+    margin-top: 4rem;
+  }
 }
 @media (max-width: 768px) {
   .container {

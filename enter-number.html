@@ -26,7 +26,10 @@
                     <span class="text-[var(--primary-color)] font-bold">Enjoy Karo, Repeat Karo</span>
                 </div>
                 <div class="subscription-form">
+                  <div>
                     <input id="phone" type="tel">
+                    <p class="text-[red] mt-2 " id="input-error"></p>
+                    </div>
                     <button class="subscribe-btn" id="subscribe">Subscribe</button>
                 </div>
             </div>
@@ -94,13 +97,19 @@
 
 
   document.querySelector('#subscribe').addEventListener('click', () => {
+    document.getElementById('input-error').innerHTM=''
     const number = input?.value?.split(" ")?.join('') || '';
     const finalNumber=`+92${number}`
     const nextUrl = window.location.href.replace('enter-number', 'enter-otp');
-    if(!number || number?.length < 10){
-
-     return
+    if(!number){
+     return document.getElementById('input-error').innerHTML = 'Please enter number'
     }
+    if(number?.length < 10){
+     return document.getElementById('input-error').innerHTML = 'Please enter a valid number'
+
+    }
+
+  
     const data = history?.state;
         async function sendOTP() {
         const baseUrl=`https://apiv2.koyal.pk/api/v2/web/subscriber/verify-details`

@@ -174,7 +174,7 @@
                     })
                     }
                 );
-                res = await final?.join()
+                res = await final?.json()
 
             } else if (data?.operator == 'zong') {
 
@@ -198,16 +198,14 @@
         }
         console.log('res after', res)
 
-        if ((res?.status && res?.status == "success") || res?.success) {
+        if ((res?.status == "success") || res?.success) {
           
                 button.disabled=false
                 console.log('sub', data?.isSubscribe)
             if (data?.isSubscribe) {
                 window.location.href = `https://koyal.pk?ref=${data?.token}`;
             } else {
-                //   const nextUrl = window.location.href.replace('enter-otp', 'thank-you');
-            //   window.history.pushState({ token: data?.token }, '', nextUrl);
-                window.location.href = '/thank-you.html?token'+data?.token;
+                window.location.href = '/he/thank-you.html?token='+data?.token;
 
             }
         }
@@ -307,7 +305,7 @@
     }
     document.getElementById('edit-phone').addEventListener('click', () => {
 
-        window.location.href="/enter-number.html"+url.search
+        window.location.href="/he/enter-number.html"+url.search
 
         // const nextUrl = window.location.href.replace('enter-otp', 'enter-number');
         // window.history.replaceState({ no, operator:op }, '', nextUrl);

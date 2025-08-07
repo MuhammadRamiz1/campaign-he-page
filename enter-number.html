@@ -26,7 +26,7 @@
                     <span class="text-[var(--primary-color)] font-bold">Enjoy Karo, Repeat Karo</span>
                 </div>
                 <div class="subscription-form">
-                  <div>
+                  <div class="input-container">
                     <input id="phone" type="tel">
                     <p class="text-[red] mt-2 " id="input-error"></p>
                     </div>
@@ -147,7 +147,7 @@ const clickOnSubscribe=()=>{
      url.searchParams.set('no',finalNumber)
      
      
-     window.location.href = '/enter-otp.html'+url.search;
+     window.location.href = '/he/enter-otp.html'+url.search;
     }
     sendOTP()
 }

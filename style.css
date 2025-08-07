@@ -513,3 +513,29 @@ button:disabled{
     justify-content: center;
   }
 }
+
+
+
+@media (max-width:575px) {
+  .iti {
+  width: 300px !important;
+}
+
+.iti input {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+}
+
+@media (max-width:425px){
+  .phone-mockup img{
+    width: auto !important;
+  }
+  .tagline {
+    font-size: 1.5rem;
+  }
+    .iti {
+  width: 280px !important;
+}
+}

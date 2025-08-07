@@ -38,9 +38,8 @@
 </body>
 <script>
     const redirect=()=>{
-        const url=new URL(window.location.search)
+        const url=new URL(window.location.href)
  const token=url.searchParams.get('token')
-    //   window.location.href = `https://koyal.pk?ref=${token}`;
       window.location.href = `https://koyal.pk?ref=${token}`;
     }
     setTimeout(redirect,4000)

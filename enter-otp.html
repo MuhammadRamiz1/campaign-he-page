@@ -24,7 +24,7 @@
 <body>
     <div class="page">
         <div class=" mx-auto w-[max-content] lg:mb-0 mb-6 ">
-            <img src="./koyal-logo.png">
+           <img src="http://digital.koyal.pk/he/koyal-logo.png">
         </div>
         <div class="container grid lg:grid-cols-2 grid-cols-1">
             <!-- Left Content -->
@@ -65,7 +65,7 @@
             <!-- Right Content - Phone Mockup -->
             <div class="flex justify-center items-center">
                 <div class="phone-mockup  h-[375px] md:h-auto w-[max-content]  md:w-[fit-content]">
-                    <img src="./mobile-Image.png">
+                    <img src="http://digital.koyal.pk/he/mobile-image.png">
                 </div>
             </div>
         </div>
@@ -76,8 +76,14 @@
    setTimeout(()=>{
              document.getElementById('resend').disabled=false
         },30000)
+
+ const url=new URL(window.location.href)
+  // const sanitized = history?.state?.no;
+  const no=url.searchParams.get('no')
+    let op=url.searchParams.get('op')
+
     const button=document.getElementById("continue")
-    document.querySelector('#show-number').innerText = history?.state?.no
+    document.querySelector('#show-number').innerText =no
     const inputs = document.querySelectorAll(".otp");
     inputs.forEach((input, index) => {
         input.addEventListener("input", (e) => {
@@ -95,7 +101,6 @@
     });
 
     const subscription = async (data) => {
-        console.log('data', data, history.state)
 
         let res = null
         if (!data?.isSubscribe) {
@@ -177,7 +182,7 @@
                     method: 'POST',
                     headers: { 'content-type': 'application/json' },
                     body: JSON.stringify({
-                        msisdn: history?.state?.no,
+                        msisdn:no,
                         bundle: 95006102,
                         channel: "web",
                     })
@@ -198,11 +203,11 @@
                 button.disabled=false
                 console.log('sub', data?.isSubscribe)
             if (data?.isSubscribe) {
-                window.location.href = `http://localhost:3001?ref=${data?.token}`;
+                window.location.href = `https://koyal.pk?ref=${data?.token}`;
             } else {
-                  const nextUrl = window.location.href.replace('enter-otp', 'thank-you');
-              window.history.pushState({ token: data?.token }, '', nextUrl);
-                window.location.href = nextUrl;
+                //   const nextUrl = window.location.href.replace('enter-otp', 'thank-you');
+            //   window.history.pushState({ token: data?.token }, '', nextUrl);
+                window.location.href = '/thank-you.html?token'+data?.token;
 
             }
         }
@@ -257,7 +262,6 @@
     const info = getDeviceInfo();
     async function verifyDetails(otp) {
         button.disabled=true
-        const data = history?.state;
         const getDetails = await fetch(
             `https://pro.ip-api.com/json/?key=hhpkcv6Vl7kt8YW`
         );
@@ -269,11 +273,11 @@
             headers: { "content-type": 'application/json' },
             body: JSON.stringify({
                 type: "MSISDN",
-                value: data?.no,
+                value: no,
                 otp,
                 profile_from: "WEB",
                 profile_by: "MSISDN",
-                msisdn_network: data?.operator?.toUpperCase(),
+                msisdn_network: op?.toUpperCase(),
                 device: info.device,
                 browser: info.browser,
                 operating_system: info.operating_system,
@@ -281,7 +285,7 @@
                 city: location?.city,
                 state: location?.regionName,
                 country: location?.country,
-                operator: data?.operator,
+                operator: op,
             })
         })
         const final = await res?.json()
@@ -292,8 +296,8 @@
                 token: final?.response?.access_token,
                 user_id: final?.response?.data?.id,
                 isSubscribe: final?.response?.subscriber?.status !== 'free',
-                operator: history?.state?.operator,
-                no: history?.state?.no
+                operator: op,
+                no
 
             })
         } else {
@@ -302,26 +306,25 @@
         }
     }
     document.getElementById('edit-phone').addEventListener('click', () => {
-        const data = history?.state;
 
-        const nextUrl = window.location.href.replace('enter-otp', 'enter-number');
-        window.history.replaceState({ no: data?.no, operator: data?.operator }, '', nextUrl);
+        window.location.href="/enter-number.html"+url.search
+
+        // const nextUrl = window.location.href.replace('enter-otp', 'enter-number');
+        // window.history.replaceState({ no, operator:op }, '', nextUrl);
     })
     async function resendOTP() {
-        const data = history?.state;
         const baseUrl = `https://apiv2.koyal.pk/api/v2/web/subscriber/verify-details`
         const res = await fetch(baseUrl, {
             method: 'POST',
             headers: { "content-type": "application/json" },
             body: JSON.stringify({
                 type: "MSISDN",
-                value: data?.no,
-                operator: data?.operator,
+                value: no,
+                operator:op,
                 platformType: "web"
             })
         })
         const final = await res?.json()
-        console.log('final', final)
     }
     document.getElementById('resend').addEventListener('click', () => {
          document.getElementById('resend').disabled=true
@@ -330,6 +333,15 @@
              document.getElementById('resend').disabled=false
         },30000)
     })
+
+
+      document.addEventListener('keyup', (e)=>{
+    if(e?.code =='Enter'){
+   submitOtp()
+
+    }
+
+  })
 </script>
 
 </html>

@@ -15,7 +15,7 @@
 <body>
     <div class="page">
   <div class=" mx-auto w-[max-content] lg:mb-0 mb-6 ">
-            <img src="./koyal-logo.png">
+            <img src="http://digital.koyal.pk/he/koyal-logo.png">
         </div>
         <div class="container grid lg:grid-cols-2 grid-cols-1">
             <!-- Left Content -->
@@ -36,43 +36,66 @@
             <!-- Right Content - Phone Mockup -->
             <div class="flex justify-center items-center">
             <div class="phone-mockup  h-[375px] md:h-auto w-[max-content]  md:w-[fit-content]">
-                <img src="./mobile-Image.png">
+                <img src="http://digital.koyal.pk/he/mobile-image.png">
             </div>
             </div>
         </div>
     </div>
 </body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js "></script>
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 <script>
   const input = document.querySelector("#phone");
+  const url=new URL(window.location.href)
+  const sanitized=url.searchParams.get('no')
+    let op=url.searchParams.get('op')
 
-  const sanitized = history?.state?.no;
-  if(sanitized){
-    input.value=sanitized
 
+    window.onload = function () {
+      setTimeout(()=>{
+  if (sanitized) {
+    input.value = sanitized.replace('+92', '');
   }
+      }, 500)
 
+};
+
+ 
   const getHENo=async()=>{
-    let op=history?.state?.operator
+    // let op=history?.state?.operator
+    if(op == 'telenor'){
+     $.ajax({
+                    url: "http://charge.koyal.pk/koyaldownload/getnumber-http-he.php",
+                    dataType: 'json',
+                    success: function(result) {
+                        response = result.Response.response;
+                        number = result.Response.msisdn;
+                        input.value=number?.slice(1);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log();
+                    }
+                });
+    }else{
     const api=await fetch(op =='telenor'? 'http://charge.koyal.pk/koyaldownload/getnumber-http-he.php':'http://digital.koyal.pk/get_number_api.php',
-    {headers:{'content-type':'application/json'}}
+    {
+	headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+    }
 )
     const res=await api.json()
     console.log('res', res?.Response?.msisdn)
     if(res?.Response?.msisdn){
-    if(op =='telenor'){
-     input.value= res?.Response?.msisdn?.slice(1)
-
-    }else if(op =='zong'){
+     if(op =='zong'){
      input.value= res?.Response?.msisdn?.replace('92','')
-
     }else{
-
+    }
     }
     }
   }
   getHENo()
-
   window.intlTelInput(input, {
     loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"),
     //  onlyCountries: ["pk"],
@@ -91,26 +114,18 @@
         },
         placeholderNumberType: "MOBILE",
   });
-
-
-
-
-
-  document.querySelector('#subscribe').addEventListener('click', () => {
-    document.getElementById('input-error').innerHTM=''
+const clickOnSubscribe=()=>{
+ document.getElementById('input-error').innerHTM=''
     const number = input?.value?.split(" ")?.join('') || '';
     const finalNumber=`+92${number}`
-    const nextUrl = window.location.href.replace('enter-number', 'enter-otp');
+    // const nextUrl = window.location.href.replace('enter-number', 'enter-otp');
     if(!number){
      return document.getElementById('input-error').innerHTML = 'Please enter number'
     }
     if(number?.length < 10){
      return document.getElementById('input-error').innerHTML = 'Please enter a valid number'
-
     }
-
-  
-    const data = history?.state;
+    // const data = history?.state;
         async function sendOTP() {
         const baseUrl=`https://apiv2.koyal.pk/api/v2/web/subscriber/verify-details`
         const res=await fetch(baseUrl,{
@@ -119,24 +134,33 @@
             body:JSON.stringify({
                   type: "MSISDN",
       value:finalNumber ,
-      operator:data?.operator,
+      operator:op,
       platformType: "web"
             })
         })
         console.log('fetc', res)
-
         const final=await res?.json()
         console.log('final', final)
             // Push state data
-    window.history.pushState({ no: finalNumber, operator:data?.operator }, '', nextUrl);
-
+    // window.history.pushState({ no: finalNumber, operator:data?.operator }, '', nextUrl);
     // Navigate to next page
-     window.location.href = nextUrl;
-
-        
+     url.searchParams.set('no',finalNumber)
+     
+     
+     window.location.href = '/enter-otp.html'+url.search;
     }
     sendOTP()
+}
 
+  document.querySelector('#subscribe').addEventListener('click', () => {
+   clickOnSubscribe()
   });
+  document.addEventListener('keyup', (e)=>{
+    if(e?.code =='Enter'){
+   clickOnSubscribe()
+
+    }
+
+  })
 </script>
 </html>

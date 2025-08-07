@@ -14,7 +14,7 @@
 <body>
     <div class="page">
         <div class=" mx-auto w-[max-content] lg:mb-0 mb-6 ">
-            <img src="./koyal-logo.png">
+           <img src="http://digital.koyal.pk/he/koyal-logo.png">
         </div>
         <div class="container grid lg:grid-cols-2 grid-cols-1">
             <!-- Left Content -->
@@ -30,7 +30,7 @@
             <!-- Right Content - Phone Mockup -->
              <div class="flex justify-center items-center">
             <div class="phone-mockup  h-[375px] md:h-auto w-[max-content]  md:w-[fit-content]">
-                <img src="./mobile-Image.png">
+                  <img src="http://digital.koyal.pk/he/mobile-image.png">
             </div>
             </div>
         </div>
@@ -38,11 +38,12 @@
 </body>
 <script>
     const redirect=()=>{
- const token=history.state?.token
+        const url=new URL(window.location.search)
+ const token=url.searchParams.get('token')
     //   window.location.href = `https://koyal.pk?ref=${token}`;
-      window.location.href = `http://localhost:3001?ref=${token}`;
+      window.location.href = `https://koyal.pk?ref=${token}`;
     }
-    setTimeout(redirect,5000)
+    setTimeout(redirect,4000)
   document.querySelector('#goto').addEventListener('click', () => {
    redirect()
 

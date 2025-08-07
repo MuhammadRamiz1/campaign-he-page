@@ -14,7 +14,7 @@
 <body>
     <div class="page">
         <div class=" mx-auto w-[max-content] lg:mb-0 mb-6 ">
-            <img src="./koyal-logo.png">
+            <img src="http://digital.koyal.pk/he/koyal-logo.png">
         </div>
         <div class="container grid lg:grid-cols-2 grid-cols-1">
             <!-- Left Content -->
@@ -45,7 +45,7 @@
             <!-- Right Content - Phone Mockup -->
              <div class="flex justify-center items-center">
             <div class="phone-mockup  h-[375px] md:h-auto w-[max-content]  md:w-[fit-content]">
-                <img src="./mobile-Image.png">
+               <img src="http://digital.koyal.pk/he/mobile-image.png">
             </div>
             </div>
         </div>
@@ -58,12 +58,13 @@
 const select=document.querySelector('select')?.value
 if(!select) return   document.getElementById('input-error').innerHTML='Please select operator'
 
-    const nextUrl = window.location.href.replace('index', 'enter-number');
+    // const nextUrl = window.location.href+ 'enter-number.html';
     // Push state data
-    window.history.pushState({ operator: select }, '', nextUrl);
+    // window.history.pushState({ operator: select }, '', nextUrl);
 
     // Navigate to next page
-    window.location.href = nextUrl;
+    // window.location.href = nextUrl;
+    window.location.href=`/enter-number.html?op=${select}`
   });
 </script>
 </html>
